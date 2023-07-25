@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "enchantedcharms:copper_charm"
+    ]
+  },
+  "criteria": {
+    "has_tagkey[minecraft:item / forge:ingots/copper]": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/copper"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "enchantedcharms:copper_charm"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tagkey[minecraft:item / forge:ingots/copper]",
+      "has_the_recipe"
+    ]
+  ]
+}

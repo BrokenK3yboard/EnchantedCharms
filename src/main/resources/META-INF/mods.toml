@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="GPLv3"
+
+[[mods]]
+modId="enchantedcharms"
+version="${file.jarVersion}"
+displayName="Enchanted Charms"
+logoFile="enchantedcharms.png"
+credits="BrokenKeyboard"
+authors="BrokenKeyboard"
+description='''This mod adds equippable charms with different abilities to Minecraft.'''
+
+[[dependencies.enchantedcharms]]
+    modId="forge"
+    mandatory=true
+    versionRange="[40,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.enchantedcharms]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.enchantedcharms]]
+    modId="curios"
+    mandatory=true
+    versionRange="[1.18.2-5.0.7.0,)"
+    ordering="NONE"
+    side="BOTH"

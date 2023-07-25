@@ -1,0 +1,138 @@
+package brokenkeyboard.enchantedcharms;
+
+import brokenkeyboard.enchantedcharms.datagen.GildedLoot;
+import brokenkeyboard.enchantedcharms.enchantment.CommonEvents;
+import brokenkeyboard.enchantedcharms.enchantment.amethyst.AntidoteEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.amethyst.ClusterBrewEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.amethyst.PotencyEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.amethyst.SurvivalistEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.copper.GolemancerEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.copper.GrapplerEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.copper.RepairEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.emerald.AnglersBoonEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.emerald.GildedEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.emerald.RepositoryEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.obsidian.BulwarkEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.obsidian.HuntersMarkEnchantment;
+import brokenkeyboard.enchantedcharms.entity.PrimedTntEnhanced;
+import brokenkeyboard.enchantedcharms.item.CharmItem;
+import brokenkeyboard.enchantedcharms.datagen.FishingLoot;
+import brokenkeyboard.enchantedcharms.enchantment.copper.OrdnanceEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.emerald.ProspectingEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.obsidian.DefusingEnchantment;
+import net.minecraft.client.renderer.entity.TntRenderer;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotTypeMessage;
+import top.theillusivec4.curios.api.SlotTypePreset;
+
+import static brokenkeyboard.enchantedcharms.EnchantedCharms.MOD_ID;
+
+@Mod(MOD_ID)
+public class EnchantedCharms {
+    public static final String MOD_ID = "enchantedcharms";
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, MOD_ID);
+
+    public static final TagKey<Item> CHARM = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, "charm"));
+
+    public static final CreativeModeTab TAB_CHARM = new CreativeModeTab(MOD_ID) {
+        @NotNull
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(COPPER_CHARM.get(), 1);
+        }
+    };
+
+    public static final RegistryObject<GildedLoot.GildedLootSerializer> GILDED_LOOT = GLM.register("gilded_loot", GildedLoot.GildedLootSerializer::new);
+    public static final RegistryObject<FishingLoot.FishingLootSerializer> FISHING_LOOT = GLM.register("fishing_loot", FishingLoot.FishingLootSerializer::new);
+
+    public static final RegistryObject<Item> COPPER_CHARM = ITEMS.register("copper_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));
+    public static final RegistryObject<Item> OBSIDIAN_CHARM = ITEMS.register("obsidian_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));
+    public static final RegistryObject<Item> AMETHYST_CHARM = ITEMS.register("amethyst_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));
+    public static final RegistryObject<Item> EMERALD_CHARM = ITEMS.register("emerald_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));
+
+    public static final EnchantmentCategory CHARM_COPPER = EnchantmentCategory.create("CHARM_COPPER", item -> item == COPPER_CHARM.get());
+    public static final EnchantmentCategory CHARM_OBSIDIAN = EnchantmentCategory.create("CHARM_OBSIDIAN", item -> item == OBSIDIAN_CHARM.get());
+    public static final EnchantmentCategory CHARM_AMETHYST = EnchantmentCategory.create("CHARM_AMETHYST", item -> item == AMETHYST_CHARM.get());
+    public static final EnchantmentCategory CHARM_EMERALD = EnchantmentCategory.create("CHARM_EMERALD", item -> item == EMERALD_CHARM.get());
+
+    public static final RegistryObject<Enchantment> MASTERWORK = ENCHANTMENTS.register("masterwork", () -> new RepairEnchantment(CHARM_COPPER));
+    public static final RegistryObject<Enchantment> GRAPPLER = ENCHANTMENTS.register("grappler", () -> new GrapplerEnchantment(CHARM_COPPER));
+    public static final RegistryObject<Enchantment> GOLEMANCER = ENCHANTMENTS.register("golemancer", () -> new GolemancerEnchantment(CHARM_COPPER));
+    public static final RegistryObject<Enchantment> ORDNANCE = ENCHANTMENTS.register("ordnance", () -> new OrdnanceEnchantment(CHARM_COPPER));
+
+    public static final RegistryObject<Enchantment> DEFUSING = ENCHANTMENTS.register("defusing", () -> new DefusingEnchantment(CHARM_OBSIDIAN));
+    public static final RegistryObject<Enchantment> BULWARK = ENCHANTMENTS.register("bulwark", () -> new BulwarkEnchantment(CHARM_OBSIDIAN));
+    public static final RegistryObject<Enchantment> HUNTERS_MARK = ENCHANTMENTS.register("hunters_mark", () -> new HuntersMarkEnchantment(CHARM_OBSIDIAN));
+    public static final RegistryObject<Enchantment> FOCUS = ENCHANTMENTS.register("focus", () -> new FocusEnchantment(CHARM_OBSIDIAN));
+
+    public static final RegistryObject<Enchantment> SURVIVALIST = ENCHANTMENTS.register("survivalist", () -> new SurvivalistEnchantment(CHARM_AMETHYST));
+    public static final RegistryObject<Enchantment> POTENCY = ENCHANTMENTS.register("potency", () -> new PotencyEnchantment(CHARM_AMETHYST));
+    public static final RegistryObject<Enchantment> ANTIDOTE = ENCHANTMENTS.register("antidote", () -> new AntidoteEnchantment(CHARM_AMETHYST));
+    public static final RegistryObject<Enchantment> CLUSTER_BREW = ENCHANTMENTS.register("cluster_brew", () -> new ClusterBrewEnchantment(CHARM_AMETHYST));
+
+    public static final RegistryObject<Enchantment> REPOSITORY = ENCHANTMENTS.register("repository", () -> new RepositoryEnchantment(CHARM_EMERALD));
+    public static final RegistryObject<Enchantment> PROSPECTING = ENCHANTMENTS.register("prospecting", () -> new ProspectingEnchantment(CHARM_EMERALD));
+    public static final RegistryObject<Enchantment> ANGLERS_BOON = ENCHANTMENTS.register("anglers_boon", () -> new AnglersBoonEnchantment(CHARM_EMERALD));
+    public static final RegistryObject<Enchantment> GILDED = ENCHANTMENTS.register("gilded", () -> new GildedEnchantment(CHARM_EMERALD));
+
+    public static final RegistryObject<EntityType<PrimedTntEnhanced>> ENHANCED_TNT = ENTITIES.register("enhanced_tnt", () ->
+            EntityType.Builder.<PrimedTntEnhanced>of(PrimedTntEnhanced::new, MobCategory.MISC)
+                    .fireImmune()
+                    .sized(0.98F, 0.98F)
+                    .clientTrackingRange(10)
+                    .updateInterval(10)
+                    .build("enhanced_tnt"));
+
+    public EnchantedCharms() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::enqueueIMC);
+        ITEMS.register(bus);
+        ENCHANTMENTS.register(bus);
+        ENTITIES.register(bus);
+        EFFECTS.register(bus);
+        GLM.register(bus);
+        MinecraftForge.EVENT_BUS.register(CommonEvents.class);
+    }
+
+    public void enqueueIMC(final InterModEnqueueEvent event) {
+        InterModComms.sendTo(CuriosApi.MODID, SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.CHARM.getMessageBuilder().size(3).build());
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+
+        @SubscribeEvent
+        public static void registerRenders(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ENHANCED_TNT.get(), TntRenderer::new);
+        }
+    }
+}

@@ -1,0 +1,1 @@
+This mod adds equippable charms with different abilities to Minecraft.

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "enchantedcharms:copper_charm",
+    "enchantedcharms:obsidian_charm",
+    "enchantedcharms:amethyst_charm",
+    "enchantedcharms:emerald_charm"
+  ]
+}

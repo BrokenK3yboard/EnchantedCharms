@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "enchantedcharms:emerald_charm"
+    ]
+  },
+  "criteria": {
+    "has_tagkey[minecraft:item / forge:gems/emerald]": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:gems/emerald"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "enchantedcharms:emerald_charm"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tagkey[minecraft:item / forge:gems/emerald]",
+      "has_the_recipe"
+    ]
+  ]
+}
