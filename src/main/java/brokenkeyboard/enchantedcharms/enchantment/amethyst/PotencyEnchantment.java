@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
@@ -19,19 +19,19 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class PotencyEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> POTENCY_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.POTENCY.get(), stack) > 0);
+    public static final Predicate<ItemStack> POTENCY_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.POTENCY.get(), stack) > 0);
 
     public PotencyEnchantment(EnchantmentCategory category) {
         super(category);
         MinecraftForge.EVENT_BUS.addListener(this::increaseEffect);
     }
 
-    public void increaseEffect(PotionEvent.PotionAddedEvent event) {
-        LivingEntity entity = event.getEntityLiving();
+    public void increaseEffect(MobEffectEvent.Added event) {
+        LivingEntity entity = event.getEntity();
         Optional<SlotResult> curio = getCurio(entity, POTENCY_ENCH);
         if (curio.isEmpty()) return;
 
-        MobEffectInstance effect = event.getPotionEffect();
+        MobEffectInstance effect = event.getEffectInstance();
         MobEffect mobEffect = effect.getEffect();
 
         if (!mobEffect.isInstantenous() && mobEffect.isBeneficial()) {

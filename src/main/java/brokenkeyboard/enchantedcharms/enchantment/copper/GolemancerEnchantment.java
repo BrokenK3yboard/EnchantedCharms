@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.List;
@@ -22,16 +22,16 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class GolemancerEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> GOLEM_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.GOLEMANCER.get(), stack) > 0);
+    public static final Predicate<ItemStack> GOLEM_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.GOLEMANCER.get(), stack) > 0);
 
     public GolemancerEnchantment(EnchantmentCategory category) {
         super(category);
         MinecraftForge.EVENT_BUS.addListener(this::spawnGolem);
     }
 
-    public void spawnGolem(EntityJoinWorldEvent event) {
+    public void spawnGolem(EntityJoinLevelEvent event) {
         if (!(event.getEntity() instanceof IronGolem || event.getEntity() instanceof SnowGolem)) return;
-        List<LivingEntity> list = getNearbyEntities(event.getEntity().position(), event.getWorld(), 5);
+        List<LivingEntity> list = getNearbyEntities(event.getEntity().position(), event.getLevel(), 5);
         if (list.size() < 1) return;
 
         for (LivingEntity entity : list) {

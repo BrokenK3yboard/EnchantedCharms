@@ -4,9 +4,9 @@ import brokenkeyboard.enchantedcharms.EnchantedCharms;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.ForgeBlockTagsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = EnchantedCharms.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Datagen {
@@ -18,8 +18,8 @@ public class Datagen {
         ForgeBlockTagsProvider blockTagProvider = new ForgeBlockTagsProvider(generator, fileHelper);
 
         if (event.includeServer()) {
-            generator.addProvider(new ModTags(generator, blockTagProvider, fileHelper));
-            generator.addProvider(new Recipes(generator));
+            generator.addProvider(true, new ModTags(generator, blockTagProvider, fileHelper));
+            generator.addProvider(true, new Recipes(generator));
         }
     }
 }

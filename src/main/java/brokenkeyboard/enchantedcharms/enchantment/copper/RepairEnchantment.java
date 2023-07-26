@@ -17,7 +17,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class RepairEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> REPAIR_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.MASTERWORK.get(), stack) > 0);
+    public static final Predicate<ItemStack> REPAIR_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.MASTERWORK.get(), stack) > 0);
 
     public RepairEnchantment(EnchantmentCategory category) {
         super(category);
@@ -25,12 +25,12 @@ public class RepairEnchantment extends CharmEnchantment {
     }
 
     public void repairItem(AnvilRepairEvent event) {
-        LivingEntity entity = event.getPlayer();
+        LivingEntity entity = event.getEntity();
         Optional<SlotResult> curio = getCurio(entity, REPAIR_ENCH);
         if (curio.isEmpty()) return;
 
-        ItemStack input = event.getItemInput();
-        ItemStack result = event.getItemResult();
+        ItemStack input = event.getLeft();
+        ItemStack result = event.getOutput();
         int bonusRepair = (int) (Math.floor((input.getDamageValue() - result.getDamageValue()) * 0.25));
 
         result.setDamageValue(result.getDamageValue() - bonusRepair);

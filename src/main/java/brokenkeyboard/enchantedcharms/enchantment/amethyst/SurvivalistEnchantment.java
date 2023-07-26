@@ -17,7 +17,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class SurvivalistEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> SAVORY_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.SURVIVALIST.get(), stack) > 0);
+    public static final Predicate<ItemStack> SAVORY_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.SURVIVALIST.get(), stack) > 0);
 
     public SurvivalistEnchantment(EnchantmentCategory category) {
         super(category);
@@ -26,7 +26,7 @@ public class SurvivalistEnchantment extends CharmEnchantment {
 
     public void healPlayer(LivingEntityUseItemEvent.Finish event) {
         ItemStack stack = event.getItem();
-        if (!stack.isEdible() || !(event.getEntityLiving() instanceof Player player)) return;
+        if (!stack.isEdible() || !(event.getEntity() instanceof Player player)) return;
         Optional<SlotResult> curio = getCurio(player, SAVORY_ENCH);
         if (curio.isEmpty()) return;
 

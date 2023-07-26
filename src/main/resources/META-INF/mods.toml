@@ -14,20 +14,20 @@ description='''This mod adds equippable charms with different abilities to Minec
 [[dependencies.enchantedcharms]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[43,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.enchantedcharms]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2]"
+    versionRange="[1.19.2]"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.enchantedcharms]]
     modId="curios"
     mandatory=true
-    versionRange="[1.18.2-5.0.7.0,)"
+    versionRange="[1.19.2-5.1.4.0,)"
     ordering="NONE"
     side="BOTH"

@@ -5,6 +5,7 @@ import brokenkeyboard.enchantedcharms.enchantment.CharmEnchantment;
 import brokenkeyboard.enchantedcharms.item.CharmItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -13,17 +14,16 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class DefusingEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> DEFUSING_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.DEFUSING.get(), stack) > 0);
+    public static final Predicate<ItemStack> DEFUSING_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.DEFUSING.get(), stack) > 0);
     public static final int RANGE = 5;
 
     public DefusingEnchantment(EnchantmentCategory category) {
@@ -34,7 +34,7 @@ public class DefusingEnchantment extends CharmEnchantment {
     public void defuseExplosion(ExplosionEvent.Start event) {
         Explosion explosion = event.getExplosion();
         Vec3 position = explosion.getPosition();
-        Level level = event.getWorld();
+        Level level = event.getLevel();
         List<LivingEntity> list = getNearbyEntities(position, level, RANGE);
         if (list.size() < 1) return;
 
@@ -42,7 +42,7 @@ public class DefusingEnchantment extends CharmEnchantment {
             Optional<SlotResult> curio = CharmItem.getCurio(entity, DEFUSING_ENCH);
             double distance = position.distanceTo(entity.position());
             double chance = Math.min(((RANGE - distance) / RANGE + 0.3), 1);
-            Random random = entity.getRandom();
+            RandomSource random = entity.getRandom();
 
             if (curio.isPresent() && random.nextDouble() < chance) {
                 event.setCanceled(true);
@@ -52,7 +52,7 @@ public class DefusingEnchantment extends CharmEnchantment {
         }
     }
 
-    public void defuseParticles(Level level, Vec3 position, Random random) {
+    public void defuseParticles(Level level, Vec3 position, RandomSource random) {
         if (!(level instanceof ServerLevel serverLevel)) return;
         for(int i = 0; i < 20; ++i) {
             double d0 = position.x() + random.nextGaussian() * 0.02D;

@@ -1,5 +1,6 @@
 package brokenkeyboard.enchantedcharms.item;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -7,7 +8,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public enum Stat {
 
@@ -38,7 +38,7 @@ public enum Stat {
         }
     }
 
-    public static Stat getRandomStat(Random random) {
+    public static Stat getRandomStat(RandomSource random) {
         return Stat.values()[random.nextInt(enums.size())];
     }
 

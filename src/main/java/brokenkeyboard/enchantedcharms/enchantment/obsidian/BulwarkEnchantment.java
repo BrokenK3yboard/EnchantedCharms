@@ -19,7 +19,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class BulwarkEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> BULWARK_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.BULWARK.get(), stack) > 0);
+    public static final Predicate<ItemStack> BULWARK_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.BULWARK.get(), stack) > 0);
 
     public BulwarkEnchantment(EnchantmentCategory category) {
         super(category);
@@ -27,7 +27,7 @@ public class BulwarkEnchantment extends CharmEnchantment {
     }
 
     public void shieldBlock(ShieldBlockEvent event) {
-        LivingEntity entity = event.getEntityLiving();
+        LivingEntity entity = event.getEntity();
         Optional<SlotResult> curio = getCurio(entity, BULWARK_ENCH);
         if (curio.isEmpty()) return;
 

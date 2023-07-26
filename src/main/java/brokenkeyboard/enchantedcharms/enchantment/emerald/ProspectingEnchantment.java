@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -21,16 +22,15 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class ProspectingEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> EXTRACTING_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.PROSPECTING.get(), stack) > 0);
+    public static final Predicate<ItemStack> EXTRACTING_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.PROSPECTING.get(), stack) > 0);
     public static final DustParticleOptions COAL = new DustParticleOptions(new Vector3f(0.22F, 0.22F, 0.22F), 1.0F);
     public static final DustParticleOptions COPPER = new DustParticleOptions(new Vector3f(0.89F, 0.51F, 0.42F), 1.0F);
     public static final DustParticleOptions IRON = new DustParticleOptions(new Vector3f(0.85F, 0.69F, 0.58F), 1.0F);
@@ -82,7 +82,7 @@ public class ProspectingEnchantment extends CharmEnchantment {
 
     public void createParticle(Level level, BlockPos pos, DustParticleOptions dust) {
         if (!(level instanceof ServerLevel serverLevel)) return;
-        Random random = serverLevel.getRandom();
+        RandomSource random = serverLevel.getRandom();
         for (int i = 0; i < 8; i++) {
             double d0 = (double) pos.getX() + random.nextDouble();
             double d1 = (double) pos.getY() + random.nextDouble();

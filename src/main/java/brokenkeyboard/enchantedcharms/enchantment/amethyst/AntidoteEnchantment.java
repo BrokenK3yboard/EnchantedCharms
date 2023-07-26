@@ -5,15 +5,13 @@ import brokenkeyboard.enchantedcharms.enchantment.CharmEnchantment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 import top.theillusivec4.curios.api.SlotResult;
 
@@ -25,18 +23,18 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class AntidoteEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> ANTIDOTE_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.ANTIDOTE.get(), stack) > 0);
+    public static final Predicate<ItemStack> ANTIDOTE_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.ANTIDOTE.get(), stack) > 0);
 
     public AntidoteEnchantment(EnchantmentCategory category) {
         super(category);
         MinecraftForge.EVENT_BUS.addListener(this::absorbEffect);
     }
 
-    public void absorbEffect(PotionEvent.PotionApplicableEvent event) {
-        LivingEntity entity = event.getEntityLiving();
-        if (event.getPotionEffect().getEffect().isBeneficial() || getCurio(entity, ANTIDOTE_ENCH).isEmpty()) return;
+    public void absorbEffect(MobEffectEvent.Applicable event) {
+        LivingEntity entity = event.getEntity();
+        if (event.getEffectInstance().getEffect().isBeneficial() || getCurio(entity, ANTIDOTE_ENCH).isEmpty()) return;
 
-        Predicate<ItemStack> hasResist = stack -> getPotionEffect(stack) != null && getPotionEffect(stack).getEffect() == event.getPotionEffect().getEffect();
+        Predicate<ItemStack> hasResist = stack -> getPotionEffect(stack) != null && getPotionEffect(stack).getEffect() == event.getEffectInstance().getEffect();
         Optional<SlotResult> resistResult = getCurio(entity, hasResist);
 
         if (resistResult.isPresent()) {
@@ -72,9 +70,9 @@ public class AntidoteEnchantment extends CharmEnchantment {
 
     public static void getHoverText(List<Component> components, ItemStack stack) {
         if (ANTIDOTE_ENCH.test(stack) && getPotionEffect(stack) != null) {
-            components.add(new TextComponent(getPotionEffect(stack).getEffect().getDisplayName().getString() + " ")
-                    .append(new TranslatableComponent("enchantedcharms.immunity"))
-                    .append(new TextComponent(" (" + getUses(stack) + ")"))
+            components.add(Component.literal(getPotionEffect(stack).getEffect().getDisplayName().getString() + " ")
+                    .append(Component.translatable("enchantedcharms.immunity"))
+                    .append(Component.literal(" (" + getUses(stack) + ")"))
                     .withStyle(ChatFormatting.BLUE));
         }
     }

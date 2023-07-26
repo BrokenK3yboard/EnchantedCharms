@@ -1,5 +1,6 @@
 package brokenkeyboard.enchantedcharms;
 
+import brokenkeyboard.enchantedcharms.datagen.FishingLoot;
 import brokenkeyboard.enchantedcharms.datagen.GildedLoot;
 import brokenkeyboard.enchantedcharms.enchantment.CommonEvents;
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.AntidoteEnchantment;
@@ -8,19 +9,19 @@ import brokenkeyboard.enchantedcharms.enchantment.amethyst.PotencyEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.SurvivalistEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.copper.GolemancerEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.copper.GrapplerEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.copper.OrdnanceEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.copper.RepairEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.emerald.AnglersBoonEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.emerald.GildedEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.emerald.ProspectingEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.emerald.RepositoryEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.BulwarkEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.obsidian.DefusingEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.HuntersMarkEnchantment;
 import brokenkeyboard.enchantedcharms.entity.PrimedTntEnhanced;
 import brokenkeyboard.enchantedcharms.item.CharmItem;
-import brokenkeyboard.enchantedcharms.datagen.FishingLoot;
-import brokenkeyboard.enchantedcharms.enchantment.copper.OrdnanceEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.ProspectingEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.obsidian.DefusingEnchantment;
+import com.mojang.serialization.Codec;
 import net.minecraft.client.renderer.entity.TntRenderer;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +36,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -57,9 +58,9 @@ public class EnchantedCharms {
     public static final String MOD_ID = "enchantedcharms";
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, MOD_ID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MOD_ID);
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
-    public static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, MOD_ID);
+    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLM = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
 
     public static final TagKey<Item> CHARM = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(CuriosApi.MODID, "charm"));
 
@@ -71,8 +72,8 @@ public class EnchantedCharms {
         }
     };
 
-    public static final RegistryObject<GildedLoot.GildedLootSerializer> GILDED_LOOT = GLM.register("gilded_loot", GildedLoot.GildedLootSerializer::new);
-    public static final RegistryObject<FishingLoot.FishingLootSerializer> FISHING_LOOT = GLM.register("fishing_loot", FishingLoot.FishingLootSerializer::new);
+    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> FISHING_LOOT = GLM.register("fishing_loot", FishingLoot.CODEC);
+    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> GILDED_LOOT = GLM.register("gilded_loot", GildedLoot.CODEC);
 
     public static final RegistryObject<Item> COPPER_CHARM = ITEMS.register("copper_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));
     public static final RegistryObject<Item> OBSIDIAN_CHARM = ITEMS.register("obsidian_charm", () -> new CharmItem(new Item.Properties().tab(TAB_CHARM)));

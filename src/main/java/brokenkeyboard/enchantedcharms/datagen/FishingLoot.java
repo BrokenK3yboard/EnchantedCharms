@@ -3,8 +3,11 @@ package brokenkeyboard.enchantedcharms.datagen;
 import brokenkeyboard.enchantedcharms.EnchantedCharms;
 import brokenkeyboard.enchantedcharms.enchantment.copper.GrapplerEnchantment;
 import brokenkeyboard.enchantedcharms.item.CharmItem;
-import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -16,19 +19,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotResult;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class FishingLoot extends LootModifier {
 
-    public static final Predicate<ItemStack> FISHING_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.ANGLERS_BOON.get(), stack) > 0);
+    public static final Supplier<Codec<FishingLoot>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, FishingLoot::new)));
+    public static final Predicate<ItemStack> FISHING_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.ANGLERS_BOON.get(), stack) > 0);
 
     protected FishingLoot(LootItemCondition[] condition) {
         super(condition);
@@ -36,12 +39,12 @@ public class FishingLoot extends LootModifier {
 
     @NotNull
     @Override
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         if (!(context.getParamOrNull(LootContextParams.KILLER_ENTITY) instanceof Player player)) return generatedLoot;
         Optional<SlotResult> curio = CharmItem.getCurio(player, FISHING_ENCH);
         if (curio.isEmpty()) return generatedLoot;
 
-        Random random = player.getRandom();
+        RandomSource random = player.getRandom();
 
         for (ItemStack stack : generatedLoot) {
             if (random.nextDouble() > 0.4) continue;
@@ -66,16 +69,8 @@ public class FishingLoot extends LootModifier {
         return generatedLoot;
     }
 
-    public static class FishingLootSerializer extends GlobalLootModifierSerializer<FishingLoot> {
-
-        @Override
-        public FishingLoot read(ResourceLocation location, JsonObject object, LootItemCondition[] condition) {
-            return new FishingLoot(condition);
-        }
-
-        @Override
-        public JsonObject write(FishingLoot instance) {
-            return this.makeConditions(instance.conditions);
-        }
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return CODEC.get();
     }
 }

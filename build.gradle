@@ -83,10 +83,10 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.9'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.2.14'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.9.1:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.19.2-5.1.4.1")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.19.2-5.1.4.1:api")
 }
 
 jar {

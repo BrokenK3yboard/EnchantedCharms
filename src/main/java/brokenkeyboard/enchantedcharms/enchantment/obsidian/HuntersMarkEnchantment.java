@@ -18,7 +18,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class HuntersMarkEnchantment extends CharmEnchantment {
 
-    public static final Predicate<ItemStack> PROJECTILE_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.HUNTERS_MARK.get(), stack) > 0);
+    public static final Predicate<ItemStack> PROJECTILE_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.HUNTERS_MARK.get(), stack) > 0);
 
     public HuntersMarkEnchantment(EnchantmentCategory category) {
         super(category);

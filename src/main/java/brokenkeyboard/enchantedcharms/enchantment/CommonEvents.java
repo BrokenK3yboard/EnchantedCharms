@@ -19,7 +19,7 @@ public class CommonEvents {
         LivingEntity attacker = getAttacker(source);
         if (attacker == null) return;
 
-        LivingEntity victim = event.getEntityLiving();
+        LivingEntity victim = event.getEntity();
         double bonus = 1;
 
         bonus += HuntersMarkEnchantment.damageBonus(attacker, victim);
@@ -33,14 +33,14 @@ public class CommonEvents {
         DamageSource source = event.getSource();
         LivingEntity attacker = getAttacker(event.getSource());
 
-        LivingEntity victim = event.getEntityLiving();
+        LivingEntity victim = event.getEntity();
 
         FocusEnchantment.addStacks(attacker, victim);
         HuntersMarkEnchantment.applyGlowing(source, attacker, victim);
     }
 
     @SubscribeEvent
-    public static void grindstoneCharm(GrindstoneEvent.OnPlaceItem event) {
+    public static void grindstoneCharm(GrindstoneEvent.OnplaceItem event) {
         if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
             resetXP(event, event.getTopItem().copy());
         } else if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
@@ -48,7 +48,7 @@ public class CommonEvents {
         }
     }
 
-    public static void resetXP(GrindstoneEvent.OnPlaceItem event, ItemStack stack) {
+    public static void resetXP(GrindstoneEvent.OnplaceItem event, ItemStack stack) {
         event.setXp(RepositoryEnchantment.getStoredXP(stack));
         stack.getOrCreateTag().putInt("exp", 0);
         event.setOutput(stack);

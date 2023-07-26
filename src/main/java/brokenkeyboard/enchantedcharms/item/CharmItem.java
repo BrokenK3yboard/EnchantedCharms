@@ -60,7 +60,7 @@ public class CharmItem extends Item implements ICurioItem {
     }
 
     @Override
-    public int getEnchantmentValue() {
+    public int getEnchantmentValue(ItemStack stack) {
         return 1;
     }
 

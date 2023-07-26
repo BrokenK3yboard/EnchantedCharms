@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "S",
-    "I",
-    "I"
-  ],
   "key": {
     "I": {
       "tag": "forge:obsidian"
@@ -13,6 +8,11 @@
       "tag": "forge:string"
     }
   },
+  "pattern": [
+    "S",
+    "I",
+    "I"
+  ],
   "result": {
     "item": "enchantedcharms:obsidian_charm"
   }
