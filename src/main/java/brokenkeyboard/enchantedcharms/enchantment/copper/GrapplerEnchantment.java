@@ -32,7 +32,7 @@ public class GrapplerEnchantment extends CharmEnchantment {
         Optional<SlotResult> curio = getCurio(entity, GRAPPLING_ENCH);
         if (curio.isEmpty() || !(entity.getMainHandItem().getItem() instanceof FishingRodItem || entity.getOffhandItem().getItem() instanceof FishingRodItem)) return;
 
-        if (hook.isOnGround()) {
+        if (hook.onGround()) {
             pullEntity(hook.position(), (LivingEntity) hook.getOwner());
         } else if (hook.getHookedIn() instanceof LivingEntity target) {
             pullEntity(hook.getOwner().position(), target);

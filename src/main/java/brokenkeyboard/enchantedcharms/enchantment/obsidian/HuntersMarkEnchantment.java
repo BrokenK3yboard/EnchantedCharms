@@ -2,6 +2,7 @@ package brokenkeyboard.enchantedcharms.enchantment.obsidian;
 
 import brokenkeyboard.enchantedcharms.EnchantedCharms;
 import brokenkeyboard.enchantedcharms.enchantment.CharmEnchantment;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -35,7 +36,7 @@ public class HuntersMarkEnchantment extends CharmEnchantment {
         Optional<SlotResult> curio = getCurio(attacker, PROJECTILE_ENCH);
         if (curio.isEmpty()) return;
 
-        if (source.isProjectile() && victim.getRandom().nextDouble() < 0.4)
+        if (source.is(DamageTypeTags.IS_PROJECTILE) && victim.getRandom().nextDouble() < 0.4)
             victim.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200, 0, true, true));
     }
 }

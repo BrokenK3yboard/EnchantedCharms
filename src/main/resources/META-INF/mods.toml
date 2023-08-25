@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="${loader_version_range}"
 license="GPLv3"
 
 [[mods]]
@@ -14,20 +14,20 @@ description='''This mod adds equippable charms with different abilities to Minec
 [[dependencies.enchantedcharms]]
     modId="forge"
     mandatory=true
-    versionRange="[43,)"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.enchantedcharms]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2]"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.enchantedcharms]]
     modId="curios"
     mandatory=true
-    versionRange="[1.19.2-5.1.4.0,)"
+    versionRange="${curios_version}"
     ordering="NONE"
     side="BOTH"

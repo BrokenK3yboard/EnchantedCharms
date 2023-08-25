@@ -40,7 +40,7 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void grindstoneCharm(GrindstoneEvent.OnplaceItem event) {
+    public static void grindstoneCharm(GrindstoneEvent.OnPlaceItem event) {
         if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
             resetXP(event, event.getTopItem().copy());
         } else if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
@@ -48,7 +48,7 @@ public class CommonEvents {
         }
     }
 
-    public static void resetXP(GrindstoneEvent.OnplaceItem event, ItemStack stack) {
+    public static void resetXP(GrindstoneEvent.OnPlaceItem event, ItemStack stack) {
         event.setXp(RepositoryEnchantment.getStoredXP(stack));
         stack.getOrCreateTag().putInt("exp", 0);
         event.setOutput(stack);

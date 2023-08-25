@@ -35,7 +35,7 @@ public class ClusterBrewEnchantment extends CharmEnchantment {
 
         for (int i = 0; i < 2; i++) {
             RandomSource random = owner.getRandom();
-            Level level = potion.getLevel();
+            Level level = potion.level();
             ThrownPotion potion1 = new ThrownPotion(level, owner);
 
             potion1.setItem(potion.getItem());

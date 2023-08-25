@@ -15,7 +15,7 @@ public abstract class SnowGolemMixin {
     private boolean preventMelting(SnowGolem instance, DamageSource damageSource, float v) {
         SnowGolem golem = ((SnowGolem) (Object) this);
         if (!(golem.getPersistentData().contains("golemancer")))
-            golem.hurt(DamageSource.ON_FIRE, 1.0F);
+            golem.hurt(golem.damageSources().onFire(), 1.0F);
         return false;
     }
 

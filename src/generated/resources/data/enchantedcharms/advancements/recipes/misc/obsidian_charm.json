@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tagkey[minecraft:item / forge:ingots/copper]": {
+    "has_tagkey[minecraft:item / forge:obsidian]": {
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/copper"
+            "tag": "forge:obsidian"
           }
         ]
       },
@@ -13,20 +13,21 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "enchantedcharms:copper_charm"
+        "recipe": "enchantedcharms:obsidian_charm"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_tagkey[minecraft:item / forge:ingots/copper]",
+      "has_tagkey[minecraft:item / forge:obsidian]",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "enchantedcharms:copper_charm"
+      "enchantedcharms:obsidian_charm"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

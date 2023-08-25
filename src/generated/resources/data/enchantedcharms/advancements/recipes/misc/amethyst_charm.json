@@ -28,5 +28,6 @@
     "recipes": [
       "enchantedcharms:amethyst_charm"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -58,10 +58,10 @@ public class FishingLoot extends LootModifier {
             player.addEffect(new MobEffectInstance(MobEffects.LUCK, 6000, 1, true, true));
         }
 
-        Level level = player.getLevel();
+        Level level = player.level();
 
         if (player.fishing != null && random.nextDouble() < 0.08 && level.getDifficulty().getId() > 0) {
-            Guardian guardian = new Guardian(EntityType.GUARDIAN, player.getLevel());
+            Guardian guardian = new Guardian(EntityType.GUARDIAN, player.level());
             guardian.setPos(player.fishing.position());
             level.addFreshEntity(guardian);
             GrapplerEnchantment.pullEntity(player.position(), guardian);

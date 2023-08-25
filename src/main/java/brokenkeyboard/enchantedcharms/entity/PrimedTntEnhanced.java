@@ -3,7 +3,6 @@ package brokenkeyboard.enchantedcharms.entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -33,7 +32,7 @@ public class PrimedTntEnhanced extends PrimedTnt {
 
     @Override
     protected void explode() {
-        this.level.explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 8.0F, Explosion.BlockInteraction.BREAK);
+        this.level().explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 8.0F, Level.ExplosionInteraction.TNT);
     }
 
     @Override

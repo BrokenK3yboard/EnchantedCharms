@@ -3,7 +3,6 @@ package brokenkeyboard.enchantedcharms.enchantment.emerald;
 import brokenkeyboard.enchantedcharms.EnchantedCharms;
 import brokenkeyboard.enchantedcharms.enchantment.CharmEnchantment;
 import brokenkeyboard.enchantedcharms.item.CharmItem;
-import com.mojang.math.Vector3f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -23,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.level.BlockEvent;
+import org.joml.Vector3f;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
@@ -51,7 +51,7 @@ public class ProspectingEnchantment extends CharmEnchantment {
     public void blockBreak(BlockEvent.BreakEvent event) {
         Player player = event.getPlayer();
         BlockState state = event.getState();
-        Level level = player.getLevel();
+        Level level = player.level();
         BlockPos pos = event.getPos();
 
         if (!(player instanceof ServerPlayer) || (state.is(Tags.Blocks.ORES) || !state.getBlock().canHarvestBlock(state, level, pos, player)))
@@ -59,7 +59,7 @@ public class ProspectingEnchantment extends CharmEnchantment {
         Optional<SlotResult> curio = CharmItem.getCurio(player, EXTRACTING_ENCH);
         if (curio.isEmpty()) return;
 
-        HitResult result = player.pick(player.getReachDistance(), 1F, false);
+        HitResult result = player.pick(player.getEntityReach(), 1F, false);
         if (!(result instanceof BlockHitResult blockHit)) return;
 
         Direction direction = blockHit.getDirection();
@@ -76,7 +76,7 @@ public class ProspectingEnchantment extends CharmEnchantment {
         }
 
         if (oreBlock != null) {
-            createParticle(player.getLevel(), event.getPos(), getParticle(oreBlock));
+            createParticle(player.level(), event.getPos(), getParticle(oreBlock));
         }
     }
 

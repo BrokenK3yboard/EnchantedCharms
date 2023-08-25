@@ -1,8 +1,9 @@
 package brokenkeyboard.enchantedcharms.datagen;
 
 import brokenkeyboard.enchantedcharms.EnchantedCharms;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.TagKey;
@@ -14,12 +15,12 @@ import java.util.function.Consumer;
 
 public class Recipes extends RecipeProvider {
 
-    public Recipes(DataGenerator generator) {
-        super(generator);
+    public Recipes(PackOutput output) {
+        super(output);
     }
 
     @Override
-    protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
         charmRecipe(EnchantedCharms.COPPER_CHARM.get(), Tags.Items.INGOTS_COPPER, consumer);
         charmRecipe(EnchantedCharms.OBSIDIAN_CHARM.get(), Tags.Items.OBSIDIAN, consumer);
         charmRecipe(EnchantedCharms.AMETHYST_CHARM.get(), Tags.Items.GEMS_AMETHYST, consumer);
@@ -27,7 +28,7 @@ public class Recipes extends RecipeProvider {
     }
 
     protected void charmRecipe(Item output, TagKey<Item> item, Consumer<FinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(output)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, output)
                 .define('I', item)
                 .define('S', Tags.Items.STRING)
                 .pattern("S")
