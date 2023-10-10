@@ -50,7 +50,7 @@ public class CommonEvents {
 
     public static void resetXP(GrindstoneEvent.OnplaceItem event, ItemStack stack) {
         event.setXp(RepositoryEnchantment.getStoredXP(stack));
-        stack.getOrCreateTag().putInt("exp", 0);
+        stack.getOrCreateTag().putInt("xp", 0);
         event.setOutput(stack);
     }
 
