@@ -53,10 +53,10 @@ public class GildedLoot extends LootModifier {
 
         for (ItemStack stack : generatedLoot) {
             Item item = stack.getItem();
-            if (gildedDrops.containsKey(item) && random.nextDouble() < 0.05) {
+            if (gildedDrops.containsKey(item) && random.nextDouble() < 1) {
                 stack.setCount(stack.getCount() - 1);
                 modifiedLoot.add(new ItemStack(gildedDrops.get(item)));
-            } else if (stack.is(Tags.Items.RAW_MATERIALS) && random.nextDouble() < 0.15) {
+            } else if (stack.is(Tags.Items.RAW_MATERIALS) && random.nextDouble() < 1) {
                 modifiedLoot.add(new ItemStack(Items.RAW_GOLD));
             }
             modifiedLoot.add(stack);

@@ -47,7 +47,7 @@ public class FishingLoot extends LootModifier {
         RandomSource random = player.getRandom();
 
         for (ItemStack stack : generatedLoot) {
-            if (random.nextDouble() > 0.4) continue;
+            //if (random.nextDouble() > 0.4) continue;
             if (stack.getMaxStackSize() > 1) {
                 stack.setCount(stack.getCount() * 2);
             } else if (stack.getMaxDamage() > 0) {

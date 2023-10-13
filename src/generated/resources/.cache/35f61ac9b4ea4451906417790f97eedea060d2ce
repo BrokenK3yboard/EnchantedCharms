@@ -1,0 +1,4 @@
+// 1.19.2	2023-10-11T14:52:31.658755	Global Loot Modifiers : enchantedcharms
+72717bd75870f9113e54594c132384ccca9203e2 data/enchantedcharms/loot_modifiers/fishing_loot.json
+34e30ef913c13ed78eb0b87469e6d11214f077cd data/enchantedcharms/loot_modifiers/gilded_loot.json
+4c11431cf27ff1a53ba196b0348ad5229be9f9a8 data/forge/loot_modifiers/global_loot_modifiers.json

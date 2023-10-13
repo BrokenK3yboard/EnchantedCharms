@@ -20,6 +20,7 @@ public class Datagen {
         if (event.includeServer()) {
             generator.addProvider(true, new ModTags(generator, blockTagProvider, fileHelper));
             generator.addProvider(true, new Recipes(generator));
+            generator.addProvider(true, new GLMProvider(generator));
         }
     }
 }
