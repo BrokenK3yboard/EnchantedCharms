@@ -27,6 +27,7 @@ public class Datagen {
             generator.addProvider(true, blockTags);
             generator.addProvider(true, new ItemTags(output, provider, blockTags.contentsGetter(), fileHelper));
             generator.addProvider(true, new Recipes(output));
+            generator.addProvider(true, new GLMProvider(output));
         }
     }
 }
