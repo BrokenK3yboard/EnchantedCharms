@@ -36,7 +36,7 @@ public class DefusingEnchantment extends CharmEnchantment {
         Vec3 position = explosion.getPosition();
         Level level = event.getLevel();
         List<LivingEntity> list = getNearbyEntities(position, level, RANGE);
-        if (list.size() < 1) return;
+        if (list.isEmpty()) return;
 
         for (LivingEntity entity : list) {
             Optional<SlotResult> curio = CharmItem.getCurio(entity, DEFUSING_ENCH);
