@@ -21,5 +21,5 @@
   "enchantment.enchantedcharms.anglers_boon": "Angler's Boon",
   "enchantment.enchantedcharms.gilded": "Gilded",
   "enchantedcharms.immunity": "Immunity",
-  "enchantedcharms.xp": "XP"
+  "enchantedcharms.repository_xp": "Level %1$s (%2$s/%3$s) XP"
 }

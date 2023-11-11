@@ -21,7 +21,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 
 public class RepositoryEnchantment extends CharmEnchantment {
 
-    public static final int MAX_XP = 550;
+    public static final int MAX_XP = 1395;
     public static final Predicate<ItemStack> EXP_ENCH = stack -> (EnchantmentHelper.getTagEnchantmentLevel(EnchantedCharms.REPOSITORY.get(), stack) > 0);
     public static final Predicate<ItemStack> EXP_ENCH_FILLED = stack -> EXP_ENCH.test(stack) && getStoredXP(stack) > 0;
     public static final Predicate<ItemStack> EXP_ENCH_MAX = stack -> EXP_ENCH.test(stack) && getStoredXP(stack) < MAX_XP;
@@ -47,11 +47,6 @@ public class RepositoryEnchantment extends CharmEnchantment {
         } else {
             stack.getOrCreateTag().putInt("xp", charm_xp + xp);
         }
-
-        if (player.getRandom().nextDouble() < 0.2) {
-            player.giveExperiencePoints(xp);
-        }
-
         event.getOrb().value = 0;
     }
 
@@ -60,11 +55,27 @@ public class RepositoryEnchantment extends CharmEnchantment {
         return tag == null ? 0 : tag.getInt("xp");
     }
 
+    public static int getLevels(int value) {
+        if (value >= 1508) {
+            return (int) Math.floor(325D / 18 + Math.sqrt(2D / 9 + (value - (54217D / 72))));
+        } else {
+            return value >= 353 ? (int) Math.floor(8.1 + Math.sqrt(0.4 * (value - (7839D / 40)))) : (int) Math.floor(Math.sqrt(value + 9) - 3);
+        }
+    }
+
+    public static int getXPFromLevels(int value) {
+        if (value >= 32) {
+            return (int) (4.5 * Math.pow(value, 2) - 162.5 * value + 2220);
+        } else {
+            return value >= 17 ? (int) (2.5 * Math.pow(value, 2) - 40.5 * value + 360) : (int) (Math.pow(value, 2) + 6 * value);
+        }
+    }
+
     public static void getHoverText(List<Component> components, ItemStack stack) {
         if (EXP_ENCH_FILLED.test(stack)) {
-            components.add(Component.literal(getStoredXP(stack) + " / " + MAX_XP + " ")
-                    .append(Component.translatable("enchantedcharms.xp"))
-                    .withStyle(ChatFormatting.BLUE));
+            int storedXP = getStoredXP(stack);
+            int storedLevels = getLevels(storedXP);
+            components.add(Component.translatable("enchantedcharms.repository_xp", storedLevels, storedXP, MAX_XP).withStyle(ChatFormatting.BLUE));
         }
     }
 }
