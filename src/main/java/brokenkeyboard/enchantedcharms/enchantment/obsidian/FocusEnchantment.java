@@ -27,9 +27,7 @@ public class FocusEnchantment extends CharmEnchantment {
 
     public static double damageBonus(LivingEntity attacker) {
         Optional<SlotResult> curio = getCurio(attacker, FOCUS_ENCH);
-        if (curio.isEmpty()) return 0;
-
-        return getStacks(curio.get().stack()) * 0.06;
+        return curio.map(slotResult -> getStacks(slotResult.stack()) * 0.06).orElse(0.0);
     }
 
     public static void addStacks(LivingEntity attacker, LivingEntity victim) {
