@@ -32,7 +32,7 @@ public class GolemancerEnchantment extends CharmEnchantment {
     public void spawnGolem(EntityJoinWorldEvent event) {
         if (!(event.getEntity() instanceof IronGolem || event.getEntity() instanceof SnowGolem)) return;
         List<LivingEntity> list = getNearbyEntities(event.getEntity().position(), event.getWorld(), 5);
-        if (list.size() < 1) return;
+        if (list.isEmpty()) return;
 
         for (LivingEntity entity : list) {
             Optional<SlotResult> curio = getCurio(entity, GOLEM_ENCH);

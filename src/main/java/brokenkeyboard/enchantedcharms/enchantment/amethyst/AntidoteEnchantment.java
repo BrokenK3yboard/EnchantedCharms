@@ -26,6 +26,7 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 public class AntidoteEnchantment extends CharmEnchantment {
 
     public static final Predicate<ItemStack> ANTIDOTE_ENCH = stack -> (EnchantmentHelper.getItemEnchantmentLevel(EnchantedCharms.ANTIDOTE.get(), stack) > 0);
+    public static final Predicate<ItemStack> EMPTY_RESIST = stack -> ANTIDOTE_ENCH.test(stack) && getPotionEffect(stack) == null;
 
     public AntidoteEnchantment(EnchantmentCategory category) {
         super(category);

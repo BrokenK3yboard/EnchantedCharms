@@ -19,8 +19,6 @@ import static brokenkeyboard.enchantedcharms.item.CharmItem.getCurio;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    private static final Predicate<ItemStack> EMPTY_RESIST = stack -> ANTIDOTE_ENCH.test(stack) && getPotionEffect(stack) == null;
-
     @Inject(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
     public void addEffect(MobEffectInstance effect, Entity source, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = ((LivingEntity) (Object) this);
