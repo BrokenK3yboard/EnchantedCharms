@@ -5,6 +5,7 @@ import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.HuntersMarkEnchantment;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -17,7 +18,7 @@ public class CommonEvents {
     public static void applyDamageBonus(LivingHurtEvent event) {
         DamageSource source = event.getSource();
         LivingEntity attacker = getAttacker(source);
-        if (attacker == null) return;
+        if (attacker == null || !(source.isProjectile() || source.getDirectEntity() instanceof Player)) return;
 
         LivingEntity victim = event.getEntityLiving();
         double bonus = 1;
@@ -35,7 +36,7 @@ public class CommonEvents {
 
         LivingEntity victim = event.getEntityLiving();
 
-        FocusEnchantment.addStacks(attacker, victim);
+        FocusEnchantment.addStacks(source, attacker, victim);
         HuntersMarkEnchantment.applyGlowing(source, attacker, victim);
     }
 
