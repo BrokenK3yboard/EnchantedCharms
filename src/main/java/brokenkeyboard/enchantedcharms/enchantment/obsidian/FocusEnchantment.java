@@ -5,7 +5,10 @@ import brokenkeyboard.enchantedcharms.enchantment.CharmEnchantment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -30,11 +33,11 @@ public class FocusEnchantment extends CharmEnchantment {
         return curio.map(slotResult -> getStacks(slotResult.stack()) * 0.06).orElse(0.0);
     }
 
-    public static void addStacks(LivingEntity attacker, LivingEntity victim) {
+    public static void addStacks(DamageSource source, LivingEntity attacker, LivingEntity victim) {
         Optional<SlotResult> curioAttacker = getCurio(attacker, FOCUS_ENCH);
         Optional<SlotResult> curioVictim = getCurio(victim, FOCUS_ENCH);
 
-        if (curioAttacker.isPresent()) {
+        if (curioAttacker.isPresent() && (source.is(DamageTypeTags.IS_PROJECTILE) || source.getDirectEntity() instanceof Player)) {
             ItemStack stack = curioAttacker.get().stack();
             setStacks(stack, getStacks(stack) + 1);
         }
