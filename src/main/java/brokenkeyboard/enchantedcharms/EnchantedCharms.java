@@ -1,20 +1,10 @@
 package brokenkeyboard.enchantedcharms;
 
-import brokenkeyboard.enchantedcharms.datagen.FishingLoot;
-import brokenkeyboard.enchantedcharms.datagen.GildedLoot;
 import brokenkeyboard.enchantedcharms.enchantment.CommonEvents;
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.AntidoteEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.ClusterBrewEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.PotencyEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.amethyst.SurvivalistEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.copper.GolemancerEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.copper.GrapplerEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.copper.OrdnanceEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.copper.RepairEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.AnglersBoonEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.GildedEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.ProspectingEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.RepositoryEnchantment;
+import brokenkeyboard.enchantedcharms.enchantment.copper.*;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.BulwarkEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.DefusingEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
@@ -63,9 +53,6 @@ public class EnchantedCharms {
 
     public static final TagKey<Item> CHARM = TagKey.create(Registries.ITEM, new ResourceLocation(CuriosApi.MODID, "charm"));
 
-    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> FISHING_LOOT = GLM.register("fishing_loot", FishingLoot.CODEC);
-    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> GILDED_LOOT = GLM.register("gilded_loot", GildedLoot.CODEC);
-
     public static final RegistryObject<Item> COPPER_CHARM = ITEMS.register("copper_charm", () -> new CharmItem(new Item.Properties()));
     public static final RegistryObject<Item> OBSIDIAN_CHARM = ITEMS.register("obsidian_charm", () -> new CharmItem(new Item.Properties()));
     public static final RegistryObject<Item> AMETHYST_CHARM = ITEMS.register("amethyst_charm", () -> new CharmItem(new Item.Properties()));
@@ -86,14 +73,10 @@ public class EnchantedCharms {
     public static final RegistryObject<Enchantment> HUNTERS_MARK = ENCHANTMENTS.register("hunters_mark", () -> new HuntersMarkEnchantment(CHARM_OBSIDIAN));
     public static final RegistryObject<Enchantment> FOCUS = ENCHANTMENTS.register("focus", () -> new FocusEnchantment(CHARM_OBSIDIAN));
 
-    public static final RegistryObject<Enchantment> SURVIVALIST = ENCHANTMENTS.register("survivalist", () -> new SurvivalistEnchantment(CHARM_AMETHYST));
     public static final RegistryObject<Enchantment> POTENCY = ENCHANTMENTS.register("potency", () -> new PotencyEnchantment(CHARM_AMETHYST));
     public static final RegistryObject<Enchantment> ANTIDOTE = ENCHANTMENTS.register("antidote", () -> new AntidoteEnchantment(CHARM_AMETHYST));
     public static final RegistryObject<Enchantment> CLUSTER_BREW = ENCHANTMENTS.register("cluster_brew", () -> new ClusterBrewEnchantment(CHARM_AMETHYST));
 
-    public static final RegistryObject<Enchantment> REPOSITORY = ENCHANTMENTS.register("repository", () -> new RepositoryEnchantment(CHARM_EMERALD));
-    public static final RegistryObject<Enchantment> PROSPECTING = ENCHANTMENTS.register("prospecting", () -> new ProspectingEnchantment(CHARM_EMERALD));
-    public static final RegistryObject<Enchantment> ANGLERS_BOON = ENCHANTMENTS.register("anglers_boon", () -> new AnglersBoonEnchantment(CHARM_EMERALD));
     public static final RegistryObject<Enchantment> GILDED = ENCHANTMENTS.register("gilded", () -> new GildedEnchantment(CHARM_EMERALD));
 
     public static final RegistryObject<CreativeModeTab> CHARMS = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
@@ -117,6 +100,7 @@ public class EnchantedCharms {
 
     public EnchantedCharms() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        Config.registerConfig();
         ITEMS.register(bus);
         ENCHANTMENTS.register(bus);
         ENTITIES.register(bus);

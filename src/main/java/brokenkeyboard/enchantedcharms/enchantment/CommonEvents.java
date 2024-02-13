@@ -1,14 +1,11 @@
 package brokenkeyboard.enchantedcharms.enchantment;
 
-import brokenkeyboard.enchantedcharms.enchantment.emerald.RepositoryEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.HuntersMarkEnchantment;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,21 +36,6 @@ public class CommonEvents {
 
         FocusEnchantment.addStacks(source, attacker, victim);
         HuntersMarkEnchantment.applyGlowing(source, attacker, victim);
-    }
-
-    @SubscribeEvent
-    public static void grindstoneCharm(GrindstoneEvent.OnPlaceItem event) {
-        if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
-            resetXP(event, event.getTopItem().copy());
-        } else if (RepositoryEnchantment.EXP_ENCH_FILLED.test(event.getTopItem()) && event.getBottomItem().isEmpty()) {
-            resetXP(event, event.getBottomItem().copy());
-        }
-    }
-
-    public static void resetXP(GrindstoneEvent.OnPlaceItem event, ItemStack stack) {
-        event.setXp(RepositoryEnchantment.getStoredXP(stack));
-        stack.getOrCreateTag().putInt("xp", 0);
-        event.setOutput(stack);
     }
 
     public static LivingEntity getAttacker(DamageSource source) {

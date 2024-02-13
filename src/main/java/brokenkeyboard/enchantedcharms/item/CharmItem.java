@@ -1,7 +1,6 @@
 package brokenkeyboard.enchantedcharms.item;
 
 import brokenkeyboard.enchantedcharms.enchantment.amethyst.AntidoteEnchantment;
-import brokenkeyboard.enchantedcharms.enchantment.emerald.RepositoryEnchantment;
 import brokenkeyboard.enchantedcharms.enchantment.obsidian.FocusEnchantment;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -54,7 +53,6 @@ public class CharmItem extends Item implements ICurioItem {
     @Override
     public List<Component> getAttributesTooltip(List<Component> tooltips, ItemStack stack) {
         AntidoteEnchantment.getHoverText(tooltips, stack);
-        RepositoryEnchantment.getHoverText(tooltips, stack);
         FocusEnchantment.getHoverText(tooltips, stack);
         return tooltips;
     }

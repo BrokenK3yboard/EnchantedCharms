@@ -15,10 +15,5 @@ public class GLMProvider extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("fishing_loot", new FishingLoot(new LootItemCondition[] {
-                new AnyOfCondition.Builder(new LootTableIdCondition.Builder(new ResourceLocation("minecraft:gameplay/fishing"))).build()
-        }));
-
-        add("gilded_loot", new GildedLoot(new LootItemCondition[] {}));
     }
 }

@@ -1,6 +1,6 @@
 package brokenkeyboard.enchantedcharms.mixin;
 
-import brokenkeyboard.enchantedcharms.datagen.GildedLoot;
+import brokenkeyboard.enchantedcharms.enchantment.copper.GildedEnchantment;
 import brokenkeyboard.enchantedcharms.item.CharmItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
@@ -23,15 +23,12 @@ import java.util.Optional;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
 
-    @Shadow
-    public abstract Item getItem();
-
     @Inject(method = "hurtEnemy", at = @At("HEAD"), cancellable = true)
     public void hurtEnemy(LivingEntity entity, Player player, CallbackInfo ci) {
-        Optional<SlotResult> curio = CharmItem.getCurio(player, GildedLoot.GILDED_ENCH);
+        Optional<SlotResult> curio = CharmItem.getCurio(player, GildedEnchantment.GILDED_ENCH);
         if (curio.isPresent()) {
-            if (this.getItem() instanceof TieredItem tieredItem && tieredItem.getTier() == Tiers.GOLD && entity.getHealth() <= tieredItem.getTier().getAttackDamageBonus()) {
-                player.awardStat(Stats.ITEM_USED.get(this.getItem()));
+            if (((ItemStack)(Object) this).getItem() instanceof TieredItem tieredItem && tieredItem.getTier() == Tiers.GOLD && entity.getHealth() <= tieredItem.getTier().getAttackDamageBonus()) {
+                player.awardStat(Stats.ITEM_USED.get(((ItemStack)(Object) this).getItem()));
                 ci.cancel();
             }
         }
@@ -39,12 +36,12 @@ public abstract class ItemStackMixin {
 
     @Inject(method = "mineBlock", at = @At("HEAD"), cancellable = true)
     private void mineBlock(Level level, BlockState state, BlockPos pos, Player player, CallbackInfo ci) {
-        Optional<SlotResult> curio = CharmItem.getCurio(player, GildedLoot.GILDED_ENCH);
+        Optional<SlotResult> curio = CharmItem.getCurio(player, GildedEnchantment.GILDED_ENCH);
         if (curio.isPresent()) {
-            if (this.getItem() instanceof DiggerItem diggerItem && diggerItem.getTier() == Tiers.GOLD
+            if (((ItemStack)(Object) this).getItem() instanceof DiggerItem diggerItem && diggerItem.getTier() == Tiers.GOLD
                     && (state.is(Tags.Blocks.STONE) || state.is(Tags.Blocks.SAND) || state.is(Tags.Blocks.GRAVEL) && state.is(Tags.Blocks.NETHERRACK) ||
                     state.is(BlockTags.DIRT))) {
-                player.awardStat(Stats.ITEM_USED.get(this.getItem()));
+                player.awardStat(Stats.ITEM_USED.get(((ItemStack)(Object) this).getItem()));
                 ci.cancel();
             }
         }
